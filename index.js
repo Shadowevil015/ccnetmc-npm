@@ -108,7 +108,7 @@ async function getTowns()
 
     let townsArray = [],
         townsArrayNoDuplicates = [],
-        townData = mapData.sets["towny.markerset"].areas,
+        townData = mapData.sets["towny.markerset"].markers,
         townAreaNames = Object.keys(townData)
 
     for (let i = 0; i < townAreaNames.length; i++)
@@ -129,8 +129,8 @@ async function getTowns()
         let currentTown = 
         {
             area: fn.calcPolygonArea(town.x, town.z, town.x.length) / 16 / 16,
-            x: Math.round((Math.max(...town.x) + Math.min(...town.x)) / 2),
-            z: Math.round((Math.max(...town.z) + Math.min(...town.z)) / 2),
+            x: Math.round((Math.max(town.x) + Math.min(town.x)) / 2),
+            z: Math.round((Math.max(town.z) + Math.min(town.z)) / 2),
             name: fn.removeStyleCharacters(townName),
             nation: fn.removeStyleCharacters(nationName),
             mayor: info[3].slice(9).replace(" ", ""),
