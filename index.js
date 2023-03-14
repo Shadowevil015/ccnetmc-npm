@@ -172,7 +172,6 @@ async function getTowns()
                 outline: colours[colornames[i]].color
             }
         } 
-        console.log(currentTown.area)
         townsArray.push(currentTown)
     }
     
@@ -649,5 +648,4 @@ module.exports =
     getNavalSieges,
     getOnlineTownyPlayerData
 }
-getTowns();
 //#endregion
