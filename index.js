@@ -109,6 +109,8 @@ async function getTowns()
     let townsArray = [],
         townsArrayNoDuplicates = [],
         townData = mapData.sets["towny.markerset"].markers,
+        colours = mapData.sets["towny.markerset"].areas,
+        colornames = Object.keys(colours),
         townAreaNames = Object.keys(townData)
 
     for (let i = 0; i < townAreaNames.length; i++)
@@ -120,11 +122,35 @@ async function getTowns()
 
         rawinfo.forEach(x => { info.push(striptags(x)) })
 
-        let townName = info[1].split(" (")[0].trim()
-        
-        let nationName = info[0].slice(10).trim()
-        let residents = info[12].slice(19).trim().split(", ")
-        let trusted = info[13].slice(20).trim()
+        let townName,
+            nationName,
+            residents,
+            trusted,
+            mayor,
+            upkeep,
+            bank,
+            peacefulness
+
+            townName = info[1].split(" (")[0].trim()
+            nationName = info[0].slice(10).trim()
+            residents = info[12].slice(19).trim().split(", ")
+            trusted = info[13].slice(20).trim()
+            mayor = info[3].slice(9).trim()
+            upkeep = info[9].slice(11).trim()
+            bank = info[8].slice(9).trim()
+            peacefulness = info[5].slice(12).trim() == "true" ? true : false
+
+            if (info[1].includes("Vassal")) {
+                townName = info[2].trim()
+                nationName = info[0].slice(10).trim()
+                residents = info[13].slice(19).trim().split(", ")
+                trusted = info[14].slice(20).trim()
+                mayor = info[4].slice(9).trim()
+                upkeep = info[10].slice(11).trim()
+                bank = info[9].slice(9).trim()
+                peacefulness = info[6].slice(12).trim() == "true" ? true : false
+    
+            }
 
         let currentTown = 
         {
@@ -133,17 +159,17 @@ async function getTowns()
             z: Math.round((Math.max(town.z) + Math.min(town.z)) / 2),
             name: fn.removeStyleCharacters(townName),
             nation: fn.removeStyleCharacters(nationName),
-            mayor: info[3].slice(9).replace(" ", ""),
+            mayor: mayor,
             residents: residents,
             onlineResidents: ops.filter(op => residents.find(resident => resident == op.name)),
             capital: info[0].includes("Capital"),
-            bank: info[8].slice(9).trim(),
-            upkeep: info[9].slice(11).trim(),
-            peacefulness: info[5].slice(12).trim() == "true" ? true : false,
+            bank: bank,
+            upkeep: upkeep,
+            peacefulness: peacefulness,
             trusted: trusted,
             colourCodes: {
-                fill: town.fillcolor,
-                outline: town.color
+                fill: colours[colornames[i]].fillcolor,
+                outline: colours[colornames[i]].color
             }
         } 
         townsArray.push(currentTown)
