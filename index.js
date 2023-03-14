@@ -154,7 +154,7 @@ async function getTowns()
 
         let currentTown = 
         {
-            area: fn.calcPolygonArea(town.x, town.z, town.x.length) / 16 / 16,
+            area: fn.calcPolygonArea(colours[colornames[i]].x, colours[colornames[i]].z, colours[colornames[i]].x.length),
             x: Math.round((Math.max(town.x) + Math.min(town.x)) / 2),
             z: Math.round((Math.max(town.z) + Math.min(town.z)) / 2),
             name: fn.removeStyleCharacters(townName),
@@ -172,6 +172,7 @@ async function getTowns()
                 outline: colours[colornames[i]].color
             }
         } 
+        console.log(currentTown.area)
         townsArray.push(currentTown)
     }
     
@@ -648,4 +649,5 @@ module.exports =
     getNavalSieges,
     getOnlineTownyPlayerData
 }
+getTowns();
 //#endregion

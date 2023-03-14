@@ -1,17 +1,13 @@
 var striptags = require("striptags")
 
-function calcPolygonArea(X, Z, numPoints) 
-{ 
-    let area = 0					
-    let j = numPoints-1		
-
-    for (let i = 0; i < numPoints; i++)
-    { 
-        area = area + (X[j]+X[i]) * (Z[j]-Z[i]) 
+function calcPolygonArea(X, Z, numPoints, divisor = 256) { 
+    let i = area = 0, j = numPoints-1		
+    for (; i < numPoints; i++) { 
+        area += (X[j] + X[i]) * (Z[j] - Z[i]) 
         j = i						
     }
 
-    return Math.abs(area/2)
+    return Math.abs(area / 2) / divisor
 }
 
 function removeDuplicates(array) 
